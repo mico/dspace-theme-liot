@@ -21,8 +21,8 @@
 		-->
 		<map:component-configurations>
 			<global-variables>
-				<theme-path>template</theme-path>
-				<theme-name>The theme template</theme-name>
+				<theme-path>Liot</theme-path>
+				<theme-name>Liot theme</theme-name>
 			</global-variables>
 		</map:component-configurations>
 		
@@ -112,7 +112,8 @@
 					</map:when>
 					<map:otherwise>
 						<map:transform type="IncludePageMeta">
-							<map:parameter name="stylesheet.screen" value="lib/style.css"/>
+							<map:parameter name="stylesheet.screen" value="lib/application-base.css"/>
+							<map:parameter name="stylesheet.screen" value="lib/application.css"/>
 							<map:parameter name="stylesheet.screen#2" value="lib/jquery-ui-1.8.15.custom.css"/>
 
                             <map:parameter name="javascript#1" value="lib/jquery-1.6.2.min.js"/>
