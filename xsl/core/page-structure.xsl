@@ -336,10 +336,11 @@
                             <span class="icon-bar"></span>
                         </button>
 
+
                         <a href="{$context-path}/" class="navbar-brand">
                             <img src="{$theme-path}/images/logo.png" />
                         </a>
-
+                        <a href="{$context-path}/" class="navbar-brand">Электронный архив</a>
 
                         <div class="navbar-header pull-right visible-xs hidden-sm hidden-md hidden-lg">
                         <ul class="nav nav-pills pull-left ">
@@ -412,6 +413,81 @@
                         </ul>
                               </div>
                     </div>
+
+                    <!-- The form, complete with a text box and a button, all built from attributes referenced
+from under pageMeta. -->
+                    <form id="ds-search-form" class="navbar-form navbar-right" method="post">
+                        <xsl:attribute name="action">
+                            <xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                            <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                        </xsl:attribute>
+                        <fieldset>
+                            <div class="input-group">
+                                <input class="ds-text-field form-control" type="text" placeholder="xmlui.general.search"
+                                       i18n:attr="placeholder">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of
+                                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='queryField']"/>
+                                    </xsl:attribute>
+                                </input>
+                                <span class="input-group-btn">
+                                    <button class="ds-button-field btn btn-primary" title="xmlui.general.go" i18n:attr="title">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <xsl:attribute name="onclick">
+                                                    <xsl:text>
+                                                        var radio = document.getElementById(&quot;ds-search-form-scope-container&quot;);
+                                                        if (radio != undefined &amp;&amp; radio.checked)
+                                                        {
+                                                        var form = document.getElementById(&quot;ds-search-form&quot;);
+                                                        form.action=
+                                                    </xsl:text>
+                                            <xsl:text>&quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']"/>
+                                            <xsl:text>/handle/&quot; + radio.value + &quot;</xsl:text>
+                                            <xsl:value-of
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search'][@qualifier='simpleURL']"/>
+                                            <xsl:text>&quot; ; </xsl:text>
+                                                    <xsl:text>
+                                                        }
+                                                    </xsl:text>
+                                        </xsl:attribute>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <xsl:if test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container']">
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-all" type="radio" name="scope" value=""
+                                               checked="checked"/>
+                                        <i18n:text>xmlui.dri2xhtml.structural.search</i18n:text>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input id="ds-search-form-scope-container" type="radio" name="scope">
+                                            <xsl:attribute name="value">
+                                                <xsl:value-of
+                                                        select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='container'],':')"/>
+                                            </xsl:attribute>
+                                        </input>
+                                        <xsl:choose>
+                                            <xsl:when
+                                                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus'][@qualifier='containerType']/text() = 'type:community'">
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-community</i18n:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <i18n:text>xmlui.dri2xhtml.structural.search-in-collection</i18n:text>
+                                            </xsl:otherwise>
+
+                                        </xsl:choose>
+                                    </label>
+                                </div>
+                            </xsl:if>
+                        </fieldset>
+                    </form>
 
                     <div class="navbar-header pull-right hidden-xs">
                         <ul class="nav navbar-nav pull-left">
